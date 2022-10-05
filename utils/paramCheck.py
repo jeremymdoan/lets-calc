@@ -14,7 +14,7 @@ def guassParams(data):
         len(data['params']['A']) < 2 or 
         checkMatrixSize(data['params']['A'], len(data['params']['A'])) or
         data['params'].get('x') == None or 
-        len(data['params']['x']) < len(data['params']['A'])
+        len(data['params']['x']) != len(data['params']['A'])
     )
 
 def aAndBParams(data):

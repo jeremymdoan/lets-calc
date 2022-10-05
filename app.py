@@ -68,7 +68,7 @@ def lcm():
 def systemOfEquations():
     data = request.get_json()
     if guassParams(data):
-        return err400('Must supply params with a n x n+1 matrix')
+        return err400('Must supply params with A = n x n matrix and x = n x 1 array')
     else:
         A = data['params']['A']
         x = data['params']['x']

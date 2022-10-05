@@ -1,4 +1,4 @@
-description: System of Equations solver
+description: f(A, x) = y where A*y = x
 tags:
 - Functions
 produces:

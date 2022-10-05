@@ -1,4 +1,4 @@
-description: Quadratic Equation solver
+description: f(a,b,c) = x where ax^2 + bx + c = 0
 tags:
 - Functions
 produces:

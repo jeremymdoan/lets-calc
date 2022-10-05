@@ -1,4 +1,4 @@
-description: Greatest Common Factor
+description: f(a,b) = gcf(a,b)
 tags:
 - Functions
 produces:
