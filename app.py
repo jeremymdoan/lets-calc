@@ -1,7 +1,6 @@
 from urllib import request
-from flask import Flask
-from flask import request, render_template
-from flasgger import Swagger
+from flask import Flask, request, render_template
+from flasgger import Swagger, swag_from
 from mathFunctions.functionList import functions
 from mathFunctions.euclideanAlgorithm import euclideanAlgorithm
 from mathFunctions.euclideanAlgorithmIterative import euclideanAlgorithmIterative
@@ -11,7 +10,7 @@ from mathFunctions.leastCommonMultiple import leastCommonMultiple
 from mathFunctions.quadractricFormula import quadractricFormula
 from utils.paramCheck import aAndBParams, guassParams, aBandCParams
 from swagger_stuff import template, swagger_config
-from customErrors import *
+from customErrors import err400
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
@@ -29,143 +28,15 @@ def tos():
     return "<p>Please don't use this to harm anyone.</p>"
 
 @app.route('/list', methods=['GET'])
+@swag_from('./specs/list.yml')
 def list():
-    """ Returns a list of available functions
-    ---
-    tags:
-    - Functions
-    produces:
-      - application/json
-    definitions:
-        Functions:
-            type: array
-            items:
-                $ref: '#/definitions/Function'
-        Function:
-            type: object
-            properties:
-            name:
-                type: string
-                description: name of function
-                example: Quadratic Equations
-            path:
-                type: string
-                description: path to function endpoint
-                example: /quadraticEquations
-            algorithms:
-                type: array
-                desciption: list of possible algorithms implemented for each function
-                items:
-                type: string
-            default:
-                type: string
-                description: name of the default algorithm if none specified
-            limitiations:
-                type: array
-                description: list of limitations of the implemented algorithms
-                items:
-                type: string
-    responses:
-        200:
-            description: A list of calculations and the path to the endpoint
-            schema:
-                id: Functions
-                type: array
-                items:
-                    schema:
-                        id: Function
-                        type: object
-                        properties:
-                            name:
-                                type: string
-                                description: name of function
-                                example: Quadratic Equations
-                            path:
-                                type: string
-                                description: path to function endpoint
-                                example: /quadraticEquations
-                            algorithms:
-                                type: array
-                                desciption: list of possible algorithms implemented for each function
-                                items:
-                                type: string
-                            default:
-                                type: string
-                                description: name of the default algorithm if none specified
-                            limitiations:
-                                type: array
-                                description: list of limitations of the implemented algorithms
-                                items:
-                                type: string
-    """
     return {
         'functions': functions
     }
 
 @app.route('/gcf', methods=['POST'])
+@swag_from('./specs/gcf.yml')
 def gcf():
-    """ Greatest Common Factor
-    ---
-    tags:
-    - Functions
-    produces:
-      - application/json
-    parameters:
-        - name: input params
-          in: body
-          type: object
-          schema:
-            type: object
-            properties:
-                params:
-                    type: object
-                    properties:
-                        a:
-                            type: integer
-                            format: int32
-                            example: 12
-                        b:
-                            type: integer
-                            format: int32
-                            example: 13
-                    required: true
-                algorith:
-                    type: string
-                    example: Euclid
-          default: all
-    responses:
-        200:
-            description: GCF of two integers
-            schema:
-                id: Solution
-                type: object
-                properties:
-                    solutions:
-                        type: array
-                        description: one (or more if applicable) solutions from function
-                        items:
-                            type: integer
-                            format: int32
-                            example: 3
-                    success:
-                        type: string
-                        description: says whether or not function was successful
-                        example: Success
-        400:
-            description: Bad request, missing some inputs
-            schema:
-                id: Error
-                type: object
-                properties:
-                    success:
-                        type: string
-                        description: says whether or not function was successful
-                        example: Error
-                    msg:
-                        type: string
-                        description: error message if status is Error
-                        example: you didn't provide the right params or whatever
-    """
     data = request.get_json()
     if aAndBParams(data):
         return err400('Must supply params with values for a and b and c (even if zero for any)')
@@ -180,66 +51,8 @@ def gcf():
         }
 
 @app.route('/lcm', methods=['POST'])
+@swag_from('./specs/lcm.yml')
 def lcm():
-    """ Least Common Multiple
-    ---
-    tags:
-    - Functions
-    produces:
-      - application/json
-    parameters:
-        - name: input params
-          in: body
-          type: object
-          schema:
-            type: object
-            properties:
-                params:
-                    type: object
-                    properties:
-                        a:
-                            type: integer
-                            format: int32
-                            example: 12
-                        b:
-                            type: integer
-                            format: int32
-                            example: 13
-                    required: true
-          default: all
-    responses:
-        200:
-            description: LCM of two integers
-            schema:
-                id: Solution
-                type: object
-                properties:
-                    solutions:
-                        type: array
-                        description: one (or more if applicable) solutions from function
-                        items:
-                            type: integer
-                            format: int32
-                            example: 3
-                    success:
-                        type: string
-                        description: says whether or not function was successful
-                        example: Success
-        400:
-            description: Bad request, missing some inputs
-            schema:
-                id: Error
-                type: object
-                properties:
-                    success:
-                        type: string
-                        description: says whether or not function was successful
-                        example: Error
-                    msg:
-                        type: string
-                        description: error message if status is Error
-                        example: you didn't provide the right params or whatever
-    """
     data = request.get_json()
     if aAndBParams(data):
         return err400('Must supply params with values for a and b')
@@ -251,6 +64,7 @@ def lcm():
         }
 
 @app.route('/systemOfEquations', methods=['POST'])
+@swag_from('./specs/systemOfEquations.yml')
 def systemOfEquations():
     data = request.get_json()
     if guassParams(data):
@@ -269,70 +83,8 @@ def systemOfEquations():
         }
 
 @app.route('/quadraticEquations', methods=['POST'])
+@swag_from('./specs/quadraticEquations.yml')
 def quadraticEquations():
-    """ Quadratic Equations
-    ---
-    tags:
-    - Functions
-    produces:
-      - application/json
-    parameters:
-        - name: input params
-          in: body
-          type: object
-          schema:
-            type: object
-            properties:
-                params:
-                    type: object
-                    properties:
-                        a:
-                            type: integer
-                            format: int32
-                            example: 2
-                        b:
-                            type: integer
-                            format: int32
-                            example: 1
-                        c:
-                            type: integer
-                            format: int32
-                            example: -1
-                    required: true
-          default: all
-    responses:
-        200:
-            description: GCF of two integers
-            schema:
-                id: Solution
-                type: object
-                properties:
-                    solutions:
-                        type: array
-                        description: one (or more if applicable) solutions from function
-                        items:
-                            type: integer
-                            format: int32
-                            example: 3
-                    success:
-                        type: string
-                        description: says whether or not function was successful
-                        example: Success
-        400:
-            description: Bad request, missing some inputs
-            schema:
-                id: Error
-                type: object
-                properties:
-                    success:
-                        type: string
-                        description: says whether or not function was successful
-                        example: Error
-                    msg:
-                        type: string
-                        description: error message if status is Error
-                        example: you didn't provide the right params or whatever
-    """
     data = request.get_json()
     if aBandCParams(data):
         return err400('Must supply params with values for a and b and c (even if zero for any)')

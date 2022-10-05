@@ -1,0 +1,66 @@
+description: System of Equations solver
+tags:
+- Functions
+produces:
+  - application/json
+parameters:
+  - name: input params
+    in: body
+    type: object
+    schema:
+      type: object
+      properties:
+        params:
+          type: object
+          properties:
+            A:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integers
+                  format: int32
+              example: [[1, -4, -2], [5, 2, -2], [1, -1, 0]]
+            x:
+              type: array
+              items:
+                type: integers
+                format: int32
+              example: [-2, -3, 4]
+          required: true
+    default: all
+responses:
+  200:
+    description: solution to a system of equations
+    schema:
+      id: Solution
+      type: object
+      properties:
+        solutions:
+          type: array
+          description: one (or more if applicable) solutions from function
+          items:
+            type: integer
+            format: int32
+            example: 3
+        success:
+          type: string
+          description: says whether or not function was successful
+          example: Success
+        isReal:
+          type: boolean
+          description: returns only for quadratic equations
+  400:
+    description: Bad request, missing some inputs
+    schema:
+      id: Error
+      type: object
+      properties:
+        success:
+          type: string
+          description: says whether or not function was successful
+          example: Error
+        msg:
+          type: string
+          description: error message if status is Error
+          example: you didn't provide the right params or whatever

@@ -1,0 +1,63 @@
+description: Greatest Common Factor
+tags:
+- Functions
+produces:
+  - application/json
+parameters:
+  - name: input params
+    in: body
+    type: object
+    schema:
+      type: object
+      properties:
+        params:
+          type: object
+          properties:
+            a:
+              type: integer
+              format: int32
+              example: 12
+            b:
+              type: integer
+              format: int32
+              example: 13
+          required: true
+        algorith:
+            type: string
+            example: Euclid
+    default: all
+responses:
+  200:
+    description: GCF of two integers
+    schema:
+      id: Solution
+      type: object
+      properties:
+        solutions:
+          type: array
+          description: one (or more if applicable) solutions from function
+          items:
+            type: integer
+            format: int32
+            example: 3
+        success:
+          type: string
+          description: says whether or not function was successful
+          example: Success
+        isSolveable:
+          type: boolean
+          description: returns only for system of equations
+  400:
+    description: Bad request, missing some inputs
+    schema:
+      id: Error
+      type: object
+      properties:
+        success:
+          type: string
+          description: says whether or not function was successful
+          example: Error
+        msg:
+          type: string
+          description: error message if status is Error
+          example: you didn't provide the right params or whatever
