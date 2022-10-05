@@ -11,6 +11,7 @@ from mathFunctions.leastCommonMultiple import leastCommonMultiple
 from mathFunctions.quadractricFormula import quadractricFormula
 from utils.paramCheck import aAndBParams, guassParams, aBandCParams
 from swagger_stuff import template, swagger_config
+from customErrors import *
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
@@ -167,10 +168,7 @@ def gcf():
     """
     data = request.get_json()
     if aAndBParams(data):
-        return {
-            'status': 'Error',
-            'msg': 'Must supply params with values for a and b and c (even if zero for any)'
-        }, 400
+        return err400('Must supply params with values for a and b and c (even if zero for any)')
     else:
         if data.get('algorithm') != None and data['algorithm'] == 'Euclid Iterative':
             solution = euclideanAlgorithmIterative(data['params']['a'], data['params']['b'])
@@ -244,10 +242,7 @@ def lcm():
     """
     data = request.get_json()
     if aAndBParams(data):
-        return {
-            'status': 'Error',
-            'msg': 'Must supply params with values for a and b'
-        }, 400
+        return err400('Must supply params with values for a and b')
     else:
         solution = leastCommonMultiple(data['params']['a'], data['params']['b'])
         return {
@@ -259,10 +254,7 @@ def lcm():
 def systemOfEquations():
     data = request.get_json()
     if guassParams(data):
-        return {
-            'status': 'Error',
-            'msg': 'Must supply params with a n x n+1 matrix'
-        }, 400
+        return err400('Must supply params with a n x n+1 matrix')
     else:
         A = data['params']['A']
         x = data['params']['x']
@@ -343,10 +335,7 @@ def quadraticEquations():
     """
     data = request.get_json()
     if aBandCParams(data):
-        return {
-            'status': 'Error',
-            'msg': 'Must supply params with values for a and b and c (even if zero for any)'
-        }, 400
+        return err400('Must supply params with values for a and b and c (even if zero for any)')
     else:
         solution = quadractricFormula(data['params']['a'], data['params']['b'], data['params']['c'])
         return {
