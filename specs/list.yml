@@ -1,0 +1,37 @@
+tags:
+  - Functions
+definitions:
+  Functions:
+    type: array
+    items:
+      $ref: '#/definitions/Function'
+  Function:
+    type: Object
+    properties:
+      name:
+        type: string
+        description: name of function
+        example: Quadratic Equations
+      path:
+        type: string
+        description: path to function endpoint
+        example: /quadraticEquations
+      algorithms:
+        type: array
+        desciption: list of possible algorithms implemented for each function
+        items:
+          type: string
+      default:
+        type: string
+        description: name of the default algorithm if none specified
+      limitiations:
+        type: array
+        description: list of limitations of the implemented algorithms
+        items:
+          type: string
+      
+responses:
+  200:
+    description: A list of calculations and the path to the endpoint
+    schema:
+      $ref: '#/definitions/Functions'
