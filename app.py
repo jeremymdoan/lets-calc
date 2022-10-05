@@ -1,6 +1,6 @@
 from urllib import request
 from flask import Flask
-from flask import request
+from flask import request, render_template
 from flasgger import Swagger
 from mathFunctions.functionList import functions
 from mathFunctions.euclideanAlgorithm import euclideanAlgorithm
@@ -22,7 +22,7 @@ swagger = Swagger(app)
 
 @app.route("/")
 def hello_world():
-    return '<p>Math Functions.</p><p><a href="/apidocs">API Docs</a></p>'
+    return render_template('landing.html')
 
 @app.route("/tos")
 def tos():
