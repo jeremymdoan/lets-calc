@@ -11,6 +11,7 @@ from mathFunctions.quadractricFormula import quadractricFormula
 from utils.paramCheck import aAndBParams, guassParams, aBandCParams
 from swagger_stuff import template, swagger_config
 from customErrors import err400
+from uselessFunctions.numberFunctions import numberIterator
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
@@ -94,3 +95,13 @@ def quadraticEquations():
             'status': 'Success',
             'solution': solution
         }
+
+# these are two routes from an older site I had at the same location.
+# just putting these nonesence functions here for the webcrawlers 
+@app.route('/actorsinfo/movie/<id>/')
+def movieId(id):
+    return numberIterator(id)
+
+@app.route('/actorsinfo/person/<id>/')
+def personId(id):
+    return numberIterator(id)

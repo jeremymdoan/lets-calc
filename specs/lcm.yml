@@ -43,9 +43,6 @@ responses:
           type: string
           description: says whether or not function was successful
           example: Success
-        isSolveable:
-          type: boolean
-          description: returns only for system of equations
   400:
     description: Bad request, missing some inputs
     schema:
