@@ -8,7 +8,8 @@ from mathFunctions.gauss import gauss
 from mathFunctions.gauss_np import gaussian_elimination as gauss_np
 from mathFunctions.leastCommonMultiple import leastCommonMultiple
 from mathFunctions.quadractricFormula import quadractricFormula
-from utils.paramCheck import aAndBParams, guassParams, aBandCParams
+from mathFunctions.chudnovskyAlgorithm import pi
+from utils.paramCheck import aAndBParams, guassParams, aBandCParams, nParam
 from swagger_stuff import template, swagger_config
 from customErrors import err400
 from uselessFunctions.numberFunctions import numberIterator
@@ -91,6 +92,20 @@ def quadraticEquations():
         return err400('Must supply params with values for a and b and c (even if zero for any)')
     else:
         solution = quadractricFormula(data['params']['a'], data['params']['b'], data['params']['c'])
+        return {
+            'status': 'Success',
+            'solution': solution
+        }
+
+@app.route('/pi_digits', methods=['POST'])
+@swag_from('./specs/pi_digits.yml')
+def pi_digits():
+    data = request.get_json()
+    if nParam(data):
+        return err400('Must supply params with value for n')
+    else:
+        n = data['params']['n']
+        solution = pi(n)
         return {
             'status': 'Success',
             'solution': solution

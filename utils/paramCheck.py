@@ -31,3 +31,9 @@ def aBandCParams(data):
         data['params'].get('b') == None or 
         data['params'].get('c') == None
     )
+
+def nParam(data):
+    return (
+        data.get('params') == None or 
+        data['params'].get('n') == None 
+    )

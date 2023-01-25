@@ -28,5 +28,10 @@ functions = [
         'limitations': [
             'Both Gauss algos are prone to rounding errors'
         ]
+    },
+    {
+        'name': 'Pi Digits',
+        'path': '/pi_digits',
+        'algorithms': 'n/a'
     }
 ]
