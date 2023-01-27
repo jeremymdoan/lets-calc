@@ -105,6 +105,8 @@ def pi_digits():
         return err400('Must supply params with value for n')
     else:
         n = data['params']['n']
+        if n > 1000:
+            return err400('n is too big. Try a smaller value')
         solution = pi(n)
         return {
             'status': 'Success',
