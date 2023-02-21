@@ -13,6 +13,7 @@ from utils.paramCheck import aAndBParams, guassParams, aBandCParams, nParam
 from swagger_stuff import template, swagger_config
 from customErrors import err400
 from uselessFunctions.numberFunctions import numberIterator
+from theDatabase.anagrams import anagrams
 
 app = Flask(__name__)
 app.config['SWAGGER'] = {
@@ -112,6 +113,15 @@ def pi_digits():
             'status': 'Success',
             'solution': solution
         }
+    
+@app.route('/thedatabase', methods=['GET', 'POST'])
+def the_database():
+    if request.args:
+        word = request.args.get('word')
+    else:
+        word = 'database'
+    data = anagrams(word)
+    return render_template('database.html', data=data)
 
 # these are two routes from an older site I had at the same location.
 # just putting these nonesence functions here for the webcrawlers 
