@@ -10,7 +10,7 @@ def anagrams(word = 'database'):
     r = []
     R = []
     for p in permutations(word):
-        if len(r) > 8:
+        if len(r) > 12:
             R.append(r)
             r = []
         w = ''.join(p)

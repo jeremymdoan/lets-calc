@@ -120,7 +120,7 @@ def the_database():
         word = request.args.get('word')
     else:
         word = 'database'
-    data = anagrams(word)
+    data = anagrams(word[:8])
     return render_template('database.html', data=data)
 
 # these are two routes from an older site I had at the same location.
